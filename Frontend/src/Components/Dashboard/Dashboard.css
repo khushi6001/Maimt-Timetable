@@ -1,0 +1,163 @@
+
+/* ===== Main Page Layout ===== */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== Fixed Sidebar ===== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: 400px;
+    height: 100vh;
+
+    background-color: #00674F;
+    color: white;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    z-index: 1000;
+    padding: 25px 15px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #16866f #00674F;
+}
+
+/* Sidebar Scrollbar - Chrome */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #16866f;
+    border-radius: 10px;
+}
+
+/* ===== College Logo / Icon ===== */
+.cap-icon {
+    color: #f5b72a;
+    font-size: 58px;
+    margin-bottom: 22px;
+}
+#name {
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: -74px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.define {
+    color: #d9f3ec;
+    font-size: 14px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* ===== Sidebar Links ===== */
+.link {
+    color: white;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+
+    border-radius: 8px;
+    font-size: 16px;
+
+    transition: background-color 0.3s ease;
+}
+
+/* Sidebar Link Icons */
+.link svg {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Hover Effect */
+.link:hover {
+    background-color: #00543f;
+    color: white;
+}
+
+/* Active Link - React Router NavLink */
+.link.active {
+    background-color: #004d3b;
+    color: white;
+    font-weight: bold;
+}
+
+/* ===== Right-Side Main Content ===== */
+.main-content {
+    margin-left: 400px;
+    width: calc(100% - 400px);
+
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 25px 30px;
+    background-color: #f5f8f7;
+}
+
+/* ===== Responsive Layout ===== */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 230px;
+    }
+
+    .main-content {
+        margin-left: 230px;
+        width: calc(100% - 230px);
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 180px;
+        padding: 15px 8px;
+    }
+
+    .main-content {
+        margin-left: 180px;
+        width: calc(100% - 180px);
+        padding: 12px;
+    }
+
+    #name {
+        font-size: 20px;
+    }
+
+    .define {
+        font-size: 12px;
+    }
+
+    .link {
+        font-size: 14px;
+        gap: 8px;
+        padding: 10px 8px;
+    }
+
+    .cap-icon {
+        font-size: 42px;
+    }
+}

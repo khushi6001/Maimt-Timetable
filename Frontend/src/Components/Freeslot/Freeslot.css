@@ -1,0 +1,125 @@
+/* Main Container */
+.free-slot-container {
+  padding: 30px;
+}
+/* Heading */
+.free-slot-container h2 {
+  color: #00674f;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.free-slot-container > p {
+  color: #777;
+  margin-bottom: 25px;
+}
+
+/* Label */
+.free-slot-container .form-label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Select */
+.free-slot-container .form-select {
+  width: 300px;
+  height: 45px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.free-slot-container .form-select:focus {
+  border-color: #00674f;
+  box-shadow: 0 0 0 0.15rem rgba(0, 103, 79, 0.15);
+}
+
+/* Show Slots Button */
+.show-slot-btn {
+  background-color: #00674f !important;
+  border: none !important;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.show-slot-btn:hover {
+  background-color: #004c42 !important;
+}
+
+/* Slot Cards Container */
+.slots-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+/* Individual Day Card */
+.slot-card {
+  width: 250px;
+  min-height: 180px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+  transition: 0.3s;
+}
+
+.slot-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Day Name */
+.slot-card h5 {
+  color: #00674f;
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Date */
+.slot-card .date {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* Time Slot */
+.time-slot {
+  background-color: #eaf7f3;
+  color: #00674f;
+  padding: 9px 12px;
+  border-radius: 7px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .free-slot-container {
+    padding: 20px;
+  }
+
+  .free-slot-container .form-select {
+    width: 100%;
+  }
+
+  .show-slot-btn {
+    margin-left: 0;
+    margin-top: 5px;
+  }
+
+  .slots-container {
+    flex-direction: column;
+  }
+
+  .slot-card {
+    width: 100%;
+  }
+}

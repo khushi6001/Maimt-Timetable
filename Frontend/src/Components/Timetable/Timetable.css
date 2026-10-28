@@ -1,0 +1,852 @@
+Time table code
+
+/* ================================
+   TIMETABLE PAGE
+================================ */
+
+.create-timetable-page {
+  width: 100%;
+  max-width: 100%;
+  padding: 25px 30px 40px;
+  background: #f5f8f7;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* ================================
+   PAGE HEADER
+================================ */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+  margin-top: 30px;
+  gap: 20px;
+}
+
+.page-header h2 {
+  margin: 0;
+  color: #064d3b;
+  font-size: 27px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-header h2 svg {
+  font-size: 25px;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+  color: #71817c;
+  font-size: 14px;
+}
+
+/* ================================
+   SAVE BUTTON
+================================ */
+
+.save-btn {
+  background: #00674f !important;
+  border: none !important;
+  padding: 10px 18px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 3px 8px rgba(0, 103, 79, 0.18);
+  transition: 0.2s ease;
+}
+
+.save-btn:hover {
+  background: #00553f !important;
+  transform: translateY(-1px);
+}
+
+/* ================================
+   ALERT
+================================ */
+
+.alert {
+  border-radius: 9px;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+/* ================================
+   CUSTOM CARD
+================================ */
+
+.custom-card {
+  border: none !important;
+  border-radius: 12px !important;
+  margin-bottom: 20px;
+  background: #ffffff;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.custom-card .card-body {
+  padding: 22px;
+}
+
+/* ================================
+   SECTION TITLE
+================================ */
+
+.section-title {
+  color: #064d3b;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* ================================
+   FORM
+================================ */
+
+.form-label {
+  color: #344740;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.form-control,
+.form-select {
+  min-height: 40px;
+  border: 1px solid #d8e2de !important;
+  border-radius: 7px !important;
+  font-size: 13px !important;
+  color: #344740 !important;
+  background-color: #fff !important;
+  box-shadow: none !important;
+  transition: 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #a4afab;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #00674f !important;
+  box-shadow: 0 0 0 3px rgba(0, 103, 79, 0.09) !important;
+}
+
+/* ================================
+   ADD / UPDATE BUTTON
+================================ */
+
+.button-wrapper {
+  display: flex;
+  align-items: end;
+}
+
+.add-btn {
+  width: 100%;
+  min-height: 40px;
+  background: #00674f !important;
+  border: none !important;
+  border-radius: 7px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #00553f !important;
+  transform: translateY(-1px);
+}
+
+/* ================================
+   CANCEL EDIT
+================================ */
+
+.btn-outline-secondary {
+  border-radius: 7px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 7px 12px !important;
+}
+
+/* ================================
+   DAY SELECTOR
+================================ */
+
+.day-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.day-selector .text-muted {
+  font-size: 13px;
+}
+
+.day-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.day-btn {
+  background: #f2f6f4 !important;
+  color: #376156 !important;
+  border: 1px solid #d9e4df !important;
+  border-radius: 7px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 7px 12px !important;
+  transition: 0.2s ease;
+}
+
+.day-btn:hover {
+  background: #e2eee9 !important;
+  color: #00674f !important;
+  border-color: #bcd4cb !important;
+}
+
+.day-btn.active {
+  background: #00674f !important;
+  color: white !important;
+  border-color: #00674f !important;
+}
+
+/* ================================
+   SEARCH
+================================ */
+
+.custom-card .fa-search {
+  margin-right: 5px;
+  color: #00674f;
+}
+
+.custom-card .fa-search + * {
+  margin-left: 0;
+}
+
+/* ================================
+   TABLE HEADER
+================================ */
+
+.table-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 17px;
+}
+
+.table-title h5 {
+  margin: 0 0 5px;
+  color: #064d3b;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.table-title span {
+  font-size: 12px;
+  color: #7a8985;
+}
+
+.table-title .badge {
+  background: #e3f2ed !important;
+  color: #00674f !important;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 11px;
+  border-radius: 20px;
+}
+
+/* ================================
+   TABLE
+================================ */
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.main-table {
+  width: 100%;
+  min-width: 900px;
+  margin-bottom: 0 !important;
+  border-color: #e1e8e5 !important;
+  vertical-align: middle;
+}
+
+.main-table thead th {
+  background: #00674f !important;
+  color: white !important;
+  border-color: #08745b !important;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  padding: 12px 9px;
+  white-space: nowrap;
+}
+
+.main-table tbody td {
+  padding: 8px;
+  border-color: #e4ebe8 !important;
+  background: #ffffff;
+  text-align: center;
+  min-width: 145px;
+  height: 100px;
+}
+
+.main-table tbody tr:hover td {
+  background: #fafdfc;
+}
+
+/* ================================
+   TIME CELL
+================================ */
+
+.main-table .time-cell {
+  background: #f1f6f4 !important;
+  color: #36574d;
+  font-weight: 700;
+  font-size: 12px;
+  width: 125px;
+  min-width: 125px;
+  white-space: nowrap;
+}
+
+/* ================================
+   FREE SLOT
+================================ */
+
+.free {
+  color: #a3afab;
+  font-size: 12px;
+  font-style: italic;
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #f7f9f8;
+}
+
+/* ================================
+   LECTURE BOX
+================================ */
+
+.lecture {
+  position: relative;
+  background: #eef8f4;
+  border: 1px solid #cce5dc;
+  border-left: 4px solid #00674f;
+  border-radius: 7px;
+  padding: 10px 8px 7px;
+  text-align: left;
+  min-height: 82px;
+  transition: 0.2s ease;
+}
+
+.lecture:hover {
+  box-shadow: 0 3px 10px rgba(0, 103, 79, 0.12);
+  transform: translateY(-1px);
+}
+
+/* Subject */
+
+.lecture strong {
+  display: block;
+  color: #064d3b;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  padding-right: 35px;
+}
+
+/* Teacher */
+
+.lecture > span {
+  display: block;
+  color: #42675b;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Class / Room */
+
+.lecture small {
+  display: block;
+  color: #72827d;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* ================================
+   HIGHLIGHT SEARCH
+================================ */
+
+.lecture.highlighted {
+  background: #fff7d9;
+  border-color: #e8cf72;
+  border-left-color: #d1a900;
+  box-shadow: 0 0 0 2px rgba(209, 169, 0, 0.10);
+}
+
+.lecture.highlighted strong {
+  color: #705b00;
+}
+
+.lecture.highlighted > span {
+  color: #806d17;
+}
+
+/* ================================
+   LECTURE ACTIONS
+================================ */
+
+.lecture-actions {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  gap: 0;
+}
+
+.lecture-actions .btn {
+  padding: 3px 5px !important;
+  border: none !important;
+  line-height: 1;
+  box-shadow: none !important;
+}
+
+.lecture-actions .edit-btn {
+  color: #00674f !important;
+}
+
+.lecture-actions .edit-btn:hover {
+  color: #003e31 !important;
+}
+
+.lecture-actions .delete-btn {
+  color: #dc3545 !important;
+}
+
+.lecture-actions .delete-btn:hover {
+  color: #a71d2a !important;
+}
+
+/* ================================
+   TEACHER WORKLOAD
+================================ */
+
+.workload-box {
+  background: #f1f8f5;
+  border: 1px solid #d8e9e2;
+  border-left: 4px solid #00674f;
+  border-radius: 8px;
+  padding: 13px 14px;
+  margin-bottom: 10px;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: 0.2s ease;
+}
+
+.workload-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 103, 79, 0.08);
+}
+
+.workload-box strong {
+  color: #064d3b;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.workload-box span {
+  color: #71827c;
+  font-size: 11px;
+}
+
+/* Full workload */
+
+.workload-box.full {
+  background: #fff4f4;
+  border-color: #f0d0d0;
+  border-left-color: #dc3545;
+}
+
+.workload-box.full strong {
+  color: #a52a35;
+}
+
+.workload-box.full span {
+  color: #c04a54;
+}
+
+/* ================================
+   BOOTSTRAP BUTTON RESET
+================================ */
+
+button:focus,
+.btn:focus {
+  box-shadow: none !important;
+}
+
+/* ================================
+   SCROLLBAR
+================================ */
+
+.table-responsive::-webkit-scrollbar {
+  height: 7px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: #edf2f0;
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: #b8cbc4;
+  border-radius: 10px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: #8eaaa0;
+}
+
+/* ================================
+   RESPONSIVE - TABLET
+================================ */
+
+@media (max-width: 992px) {
+
+  .create-timetable-page {
+    padding: 20px;
+  }
+
+  .page-header {
+    align-items: flex-start;
+  }
+
+  .day-selector {
+    flex-direction: column;
+  }
+
+  .day-buttons {
+    justify-content: flex-start;
+  }
+
+  .button-wrapper {
+    margin-top: 10px;
+  }
+
+  .add-btn {
+    min-height: 42px;
+  }
+}
+
+/* ================================
+   RESPONSIVE - MOBILE
+================================ */
+
+@media (max-width: 768px) {
+
+  .create-timetable-page {
+    padding: 15px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-header h2 {
+    font-size: 22px;
+  }
+
+  .save-btn {
+    width: fit-content;
+  }
+
+  .custom-card .card-body {
+    padding: 17px;
+  }
+
+  .day-buttons {
+    width: 100%;
+  }
+
+  .day-btn {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .table-title {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .table-title .badge {
+    white-space: nowrap;
+  }
+
+  .workload-box {
+    margin-bottom: 10px;
+  }
+}
+
+/* ================================
+   SMALL MOBILE
+================================ */
+
+@media (max-width: 480px) {
+
+  .create-timetable-page {
+    padding: 10px;
+  }
+
+  .page-header h2 {
+    font-size: 20px;
+  }
+
+  .page-header p {
+    font-size: 12px;
+  }
+
+  .save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .custom-card {
+    margin-bottom: 14px;
+  }
+
+  .custom-card .card-body {
+    padding: 14px;
+  }
+
+  .section-title {
+    font-size: 15px;
+  }
+
+  .day-btn {
+    min-width: 70px;
+    font-size: 11px !important;
+    padding: 6px 8px !important;
+  }
+
+  .main-table {
+    min-width: 850px;
+  }
+
+  .table-title h5 {
+    font-size: 15px;
+  }
+}
+/* TIMETABLE HORIZONTAL SCROLL FIX */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  display: block;
+  -webkit-overflow-scrolling: touch;
+}
+
+.main-table {
+  width: 100%;
+  min-width: 1000px !important;
+}
+
+/* Mobile/tablet par proper horizontal scroll */
+@media (max-width: 1200px) {
+  .main-table {
+    min-width: 1100px !important;
+  }
+}
+html,
+body,
+#root {
+  min-height: 100%;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+}
+
+.create-timetable-page {
+  width: 100%;
+  min-height: 100vh;
+  height: auto !important;
+  overflow: visible !important;
+  padding-bottom: 50px;
+}
+
+
+.timetable-page {
+  min-height: 100vh;
+  padding: 24px;
+  background: #f5f8f7;
+  color: #24332f;
+}
+
+.tt-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tt-heading h2 {
+  color: #00674f;
+  font-weight: 700;
+  font-size: 27px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tt-heading p {
+  color: #71817b;
+  margin: 0;
+}
+
+.tt-primary {
+  background: #00674f;
+  border-color: #00674f;
+}
+
+.tt-primary:hover {
+  background: #004c42;
+  border-color: #004c42;
+}
+
+.tt-summary,
+.tt-card {
+  border: 1px solid #e4ece8;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0, 50, 40, 0.04);
+}
+
+.tt-summary span {
+  color: #71817b;
+  font-size: 14px;
+}
+
+.tt-summary h3 {
+  color: #00674f;
+  font-weight: 700;
+  margin: 8px 0 0;
+}
+
+.tt-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #00674f;
+}
+
+.tt-table {
+  min-width: 1700px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.tt-table thead th {
+  background: #00674f;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  min-width: 125px;
+}
+
+.tt-table tbody td {
+  text-align: center;
+  vertical-align: middle;
+  background: white;
+  min-width: 125px;
+}
+
+.tt-table tbody td:first-child {
+  min-width: 150px;
+  text-align: left;
+}
+
+.tt-lecture strong {
+  display: block;
+  color: #00674f;
+  margin-bottom: 4px;
+}
+
+.tt-free {
+  color: #89958f;
+  font-style: italic;
+}
+
+.tt-edit-lecture {
+  color: #00674f;
+  text-decoration: none;
+  padding: 3px;
+  margin-top: 5px;
+}
+
+.tt-edit-lecture:hover {
+  color: #004c42;
+}
+
+.tt-break {
+  background: #eaf5ef;
+  color: #145b45;
+  border-radius: 8px;
+  padding: 7px;
+  margin-bottom: 6px;
+  min-width: 130px;
+}
+
+.tt-workload {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #e1ebe5;
+  border-radius: 10px;
+  background: #fbfdfc;
+}
+
+@media (max-width: 768px) {
+  .timetable-page {
+    padding: 14px;
+  }
+
+  .tt-heading h2 {
+    font-size: 22px;
+  }
+
+  .tt-heading .btn {
+    width: 100%;
+  }
+}
+
+@media print {
+  .no-export {
+    display: none !important;
+  }
+
+  .timetable-page {
+    background: white;
+    padding: 0;
+  }
+}

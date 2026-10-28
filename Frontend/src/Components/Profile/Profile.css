@@ -1,0 +1,253 @@
+.profile-page {
+  min-height: 100vh;
+  background: #f3f7f5;
+  color: #243b35;
+  font-family: Arial, sans-serif;
+}
+
+.profile-topbar {
+  min-height: 76px;
+  background: #00674f;
+  color: white;
+  padding: 15px 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 12px rgba(0, 60, 45, 0.12);
+}
+
+.profile-brand {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.profile-brand-subtitle {
+  margin-left: 16px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.profile-top-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 18px;
+}
+
+.profile-mini-avatar,
+.profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #d9eee5;
+  color: #00674f;
+  font-weight: 700;
+}
+
+.profile-mini-avatar {
+  width: 38px;
+  height: 38px;
+  font-size: 13px;
+}
+
+.profile-content {
+  padding: 35px 4% 25px;
+  max-width: 1500px;
+  margin: auto;
+}
+
+.profile-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.profile-heading h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.profile-heading p,
+.profile-form-heading p {
+  color: #7b8983;
+  margin: 0;
+  font-size: 14px;
+}
+
+.profile-card {
+  border: 1px solid #e4ece7;
+  border-radius: 14px;
+  box-shadow: 0 5px 22px rgba(20, 70, 50, 0.05);
+  height: 100%;
+}
+
+.profile-card .card-body {
+  padding: 28px;
+}
+
+.profile-summary {
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 105px;
+  height: 105px;
+  font-size: 32px;
+  margin: 5px auto 18px;
+  border: 5px solid #edf7f1;
+}
+
+.profile-summary h4 {
+  font-weight: 700;
+  margin-bottom: 7px;
+  overflow-wrap: anywhere;
+}
+
+.profile-role {
+  display: inline-block;
+  background: #e5f4ec;
+  color: #00674f;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-divider {
+  height: 1px;
+  background: #e8eee9;
+  margin: 22px 0;
+}
+
+.profile-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  margin: 18px 0;
+  color: #52665e;
+  font-size: 14px;
+}
+
+.profile-summary-item svg {
+  color: #008267;
+  min-width: 17px;
+}
+
+.profile-email {
+  overflow-wrap: anywhere;
+}
+
+.profile-form-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 28px;
+}
+
+.profile-form-heading h4 {
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+
+.profile-edit-btn,
+.profile-save-btn {
+  background: #00674f;
+  border-color: #00674f;
+}
+
+.profile-edit-btn:hover,
+.profile-save-btn:hover {
+  background: #004f3d;
+  border-color: #004f3d;
+}
+
+.profile-card .form-label {
+  color: #3c5148;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+.profile-card .form-control,
+.profile-card .form-select {
+  min-height: 45px;
+  border-radius: 8px;
+  border-color: #dfe8e2;
+  font-size: 14px;
+}
+
+.profile-card .form-control:disabled,
+.profile-card .form-select:disabled {
+  background: #f5f8f6;
+  color: #687970;
+  opacity: 1;
+}
+
+.profile-input-wrap {
+  position: relative;
+}
+
+.profile-input-wrap > svg {
+  position: absolute;
+  left: 13px;
+  top: 15px;
+  color: #81968b;
+  z-index: 2;
+  font-size: 14px;
+}
+
+.profile-input-wrap .form-control {
+  padding-left: 38px;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid #e8eee9;
+}
+
+.profile-footer {
+  text-align: center;
+  color: #89978f;
+  font-size: 12px;
+  padding: 28px 0 10px;
+}
+
+@media (max-width: 576px) {
+  .profile-brand-subtitle {
+    display: block;
+    margin: 4px 0 0;
+    font-size: 11px;
+  }
+
+  .profile-content {
+    padding: 25px 15px;
+  }
+
+  .profile-card .card-body {
+    padding: 20px;
+  }
+
+  .profile-heading h2 {
+    font-size: 24px;
+  }
+
+  .profile-form-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-actions {
+    flex-wrap: wrap;
+  }
+}

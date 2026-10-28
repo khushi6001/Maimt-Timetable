@@ -1,0 +1,80 @@
+.teacher-container {
+    padding: 25px;
+    background-color: #f8fafb;
+    min-height: 100vh;
+}
+.teacher-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.teacher-header h3 {
+    margin: 0;
+    color: #003f35;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.teacher-header p {
+    margin: 3px 0 0;
+    color: #777;
+    font-size: 12px;
+}
+.add-teacher-btn {
+    background-color: #00674f !important;
+    border: none !important;
+    border-radius: 5px !important;
+    font-size: 11px !important;
+    padding: 7px 12px !important;
+}
+.add-teacher-btn:hover {
+    background-color: #00543f !important;
+}
+.teacher-table-box {
+    background-color: white;
+    border-radius: 7px;
+    padding: 10px;
+    border: 1px solid #e4e9e7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+.teacher-table {
+    width: 100%;
+    margin-bottom: 0 !important;
+}
+.teacher-table thead th {
+    background-color: #f1f6f4 !important;
+    color: #164d43;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 9px 8px;
+    border-bottom: 1px solid #dfe7e4;
+}
+.teacher-table tbody td {
+    color: #555;
+    font-size: 11px;
+    padding: 9px 8px;
+    vertical-align: middle;
+    border-bottom: 1px solid #edf1ef;
+}
+.teacher-table tbody tr:hover {
+    background-color: #f8fbfa;
+}
+.teacher-table tbody td:first-child {
+    color: #00674f;
+    font-weight: 600;
+}
+.edit-btn {
+    background: transparent !important;
+    border: none !important;
+    color: #008c72 !important;
+    padding: 3px 6px !important;
+    font-size: 12px !important;
+}
+.dust{
+    background: transparent !important;
+    border: none !important;
+    color: #e63946 !important;
+    padding: 3px 6px !important;
+    font-size: 12px !important;
+}

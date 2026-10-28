@@ -1,0 +1,112 @@
+
+.dashboard-content {
+  padding: 25px;
+  background: #f5f8f6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.dashboard-content h2 {
+  color: #00674f;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.dashboard-content > p {
+  color: #777;
+}
+
+#parent {
+  margin-top: 25px;
+  gap:"50px"
+}
+
+.child {
+  background: white;
+  padding: 25px 20px;
+  border-radius: 12px;
+  border-left: 5px solid #00674f;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  transition: 0.3s;
+}
+
+.child:hover {
+  transform: translateY(-4px);
+}
+
+.child p {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.child p svg {
+  color: #00674f;
+  margin-right: 8px;
+}
+
+.child h3 {
+  color: #00674f;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Timetable */
+
+.timetable-box {
+  background: white;
+  padding: 22px;
+  margin-top: 30px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.timetable-box h4 {
+  color: #00674f;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 450px;
+}
+
+.simple-table th,
+.simple-table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.simple-table th {
+  background: #eaf4ef;
+  color: #00674f;
+  font-weight: 600;
+}
+
+.simple-table td {
+  color: #555;
+}
+
+.simple-table tbody tr:hover {
+  background: #f5f8f6;
+}
+
+@media (max-width: 576px) {
+  .dashboard-content {
+    padding: 15px;
+  }
+
+  .child {
+    padding: 20px 15px;
+  }
+
+  .timetable-box {
+    padding: 15px;
+  }
+}

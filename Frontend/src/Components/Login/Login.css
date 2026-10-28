@@ -1,0 +1,467 @@
+/* ===============================
+   MAIN PAGE
+================================ */
+
+.login-page {
+  width: 100%;
+  height: 100vh;
+  padding: 0 !important;
+  margin: 0;
+  overflow: hidden;
+}
+
+.login-row {
+  height: 100vh;
+  margin: 0 !important;
+}
+
+
+/* ===============================
+   LEFT SIDE
+================================ */
+
+.left-col {
+  padding: 0 !important;
+  height: 100vh;
+}
+
+.left-background {
+  width: 100%;
+  height: 100vh;
+
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+
+/* ===============================
+   LEFT CONTENT
+================================ */
+
+.college-content {
+  width: 90%;
+  text-align: center;
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: -10px;
+}
+
+
+/* Graduation cap */
+
+.cap-icon {
+  color: #f5b72a;
+  font-size: 58px;
+  margin-bottom: 22px;
+}
+
+
+/* If your logo contains unwanted background */
+
+.college-logo {
+  display: none;
+}
+
+
+/* ===============================
+   COLLEGE TEXT
+================================ */
+
+.college-info h2 {
+  margin: 0;
+
+  font-size: 30px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+}
+
+
+.college-info h3 {
+  margin: 10px 0 0;
+
+  font-size: 25px;
+  font-weight: 700;
+
+  letter-spacing: 0.2px;
+}
+
+
+.system-name {
+  margin-top: 14px;
+
+  font-size: 18px;
+  font-weight: 400;
+
+  letter-spacing: 1.5px;
+}
+
+
+/* ===============================
+   TAGLINE
+================================ */
+
+.tagline {
+  margin-top: 78px;
+
+  font-size: 18px;
+  font-style: italic;
+
+  color: #e6e6e6;
+
+  letter-spacing: 0.4px;
+}
+
+
+/* ===============================
+   RIGHT SIDE
+================================ */
+
+.right-col {
+  padding: 0 !important;
+  height: 100vh;
+
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ===============================
+   LOGIN CONTENT
+================================ */
+
+.login-content {
+  width: 465px;
+  max-width: 85%;
+
+  margin-top: -10px;
+}
+
+
+.login-content h1 {
+  margin: 0;
+
+  font-size: 34px;
+  font-weight: 700;
+
+  color: #202020;
+}
+
+
+.subtitle {
+  margin-top: 8px;
+  margin-bottom: 30px;
+
+  color: #6d6d6d;
+
+  font-size: 18px;
+}
+
+
+/* ===============================
+   ADMIN / TEACHER BUTTON
+================================ */
+
+.role-buttons {
+  width: 100%;
+
+  display: flex;
+
+  border: 1px solid #999;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  margin-bottom: 36px;
+}
+
+
+.role {
+  width: 50%;
+
+  height: 46px;
+
+  border: none !important;
+
+  border-radius: 0 !important;
+
+  background: white !important;
+
+  color: #777 !important;
+
+  font-size: 18px;
+
+  box-shadow: none !important;
+}
+
+
+.role.active {
+  background: #00674f !important;
+
+  color: white !important;
+}
+
+
+/* ===============================
+   FORM
+================================ */
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 16px;
+
+  color: #666;
+
+  font-weight: 400;
+}
+
+
+/* ===============================
+   INPUT
+================================ */
+
+.custom-input {
+  height: 47px;
+
+  border: 1px solid #dedede;
+
+  border-radius: 7px;
+
+  overflow: hidden;
+
+  background: white;
+}
+
+
+.custom-input .input-group-text {
+  width: 50px;
+
+  justify-content: center;
+
+  background: white;
+
+  border: none;
+
+  border-right: 1px solid #eeeeee;
+
+  color: #555;
+
+  font-size: 16px;
+}
+
+
+.custom-input .form-control {
+  border: none;
+
+  box-shadow: none !important;
+
+  font-size: 17px;
+
+  color: #333;
+
+  padding-left: 15px;
+}
+
+
+.custom-input .form-control::placeholder {
+  color: #777;
+
+  opacity: 1;
+}
+
+
+/* ===============================
+   INPUT FOCUS
+================================ */
+
+.custom-input:focus-within {
+  border-color: #00674f;
+
+  box-shadow: 0 0 0 2px rgba(0, 103, 79, 0.08);
+}
+
+
+/* ===============================
+   ERROR
+================================ */
+
+.error {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #dc3545;
+
+  font-size: 13px;
+}
+
+
+/* ===============================
+   LOGIN BUTTON
+================================ */
+
+.login-button {
+  width: 100%;
+
+  height: 51px;
+
+  margin-top: 5px;
+
+  border: none !important;
+
+  border-radius: 7px !important;
+
+  background: #00674f !important;
+
+  color: white;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+
+.login-button:hover {
+  background: #005840 !important;
+}
+
+
+/* ===============================
+   FORGOT PASSWORD
+================================ */
+
+.forgot {
+  text-align: center;
+
+  margin-top: 23px;
+
+  margin-bottom: 22px;
+}
+
+
+.forgot a {
+  color: #777;
+
+  text-decoration: none;
+
+  font-size: 16px;
+}
+
+
+.forgot a:hover {
+  color: #00674f;
+
+  text-decoration: underline;
+}
+
+
+/* ===============================
+   COPYRIGHT
+================================ */
+
+.copyright {
+  text-align: center;
+
+  margin: 0;
+
+  color: #777;
+
+  font-size: 14px;
+}
+
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 992px) {
+
+  .college-info h2 {
+    font-size: 25px;
+  }
+
+  .college-info h3 {
+    font-size: 19px;
+  }
+
+  .system-name {
+    font-size: 15px;
+  }
+
+  .login-content h1 {
+    font-size: 29px;
+  }
+
+  .login-content {
+    width: 420px;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .login-page {
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .login-row {
+    height: auto;
+  }
+
+  .left-col {
+    height: 380px;
+  }
+
+  .left-background {
+    height: 380px;
+  }
+
+  .right-col {
+    min-height: 600px;
+    height: auto;
+
+    padding: 50px 20px !important;
+  }
+
+  .college-info h2 {
+    font-size: 24px;
+  }
+
+  .college-info h3 {
+    font-size: 17px;
+  }
+
+  .tagline {
+    margin-top: 40px;
+  }
+
+  .login-content {
+    width: 100%;
+    max-width: 465px;
+  }
+}
