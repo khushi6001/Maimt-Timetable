@@ -20,35 +20,34 @@ export function Login() {
       password: yup.string().required("Please enter your password").max(8, "Password cannot be greater than 8 characters")
     }),
     onSubmit: async (values) => {
-      try {
-        const response = await fetch(
-          "http://localhost:3000/api/auth/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              email: values.email,
-              password: values.password,
-              role: "admin"
-            })
-
-          }
-        );
-        const data = await response.json();
-        if (!response.ok) {
-          alert(data.message || "Login failed");
-          return;
-        }
-        localStorage.setItem("data", JSON.stringify(data.user));
-        localStorage.setItem("token", data.token);
-        navigate("/Dashboard");
-      } catch (error) {
-        console.error("Login error:", error);
-        alert("Cannot connect to the server. Please try again.");
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/auth/login",  
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password
+         
+        })
       }
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      alert(data.message || "Login failed");
+      return;
     }
+    localStorage.setItem("data", JSON.stringify(data.user));
+    localStorage.setItem("token", data.token);
+    navigate("/Dashboard");
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Cannot connect to the server. Please try again.");
+  }
+}
   })
   return (
     <Container fluid className="login-page">

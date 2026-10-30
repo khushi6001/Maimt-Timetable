@@ -1,8 +1,8 @@
-import { useState } from "react";
-import {Container,Row, Col, Card, Form, Button, Alert} from "react-bootstrap";
-import {FaUser,FaEnvelope,FaPhone,FaGraduationCap,FaEdit,FaSave,FaBell} from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { Container, Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
+import { FaUser, FaEnvelope, FaPhone, FaGraduationCap, FaEdit, FaSave, FaBell } from "react-icons/fa";
 import "./Profile.css";
-const STORAGE_KEY = "userProfile";
+
 const defaultProfile = {
   name: "Khushi Sharma",
   email: "",
@@ -11,74 +11,102 @@ const defaultProfile = {
   department: "Computer Applications",
   college: "MAIMT"
 };
+
 export default function Profile() {
-  const [profile, setProfile] = useState(() => {
-    try {
-      return {
-        ...defaultProfile,
-        ...JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}")
-      };
-    } catch {
-      return defaultProfile;
-    }
-  });
-  const [formData, setFormData] = useState({ ...profile });
+  const [profile, setProfile]     = useState(defaultProfile);
+  const [formData, setFormData]   = useState(defaultProfile);
   const [isEditing, setIsEditing] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage]     = useState("");
+
+  // ── Backend se profile load karo ──────────────────────────────────────────
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:5000/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(r => r.json())
+      .then(json => {
+        const u = json.user;
+        const loaded = {
+          name:       u.name       || defaultProfile.name,
+          email:      u.email      || "",
+          phone:      u.phone      || "",
+          role:       u.role       || "Admin",
+          department: u.department || defaultProfile.department,
+          college:    "MAIMT"
+        };
+        setProfile(loaded);
+        setFormData(loaded);
+      })
+      .catch(() => {});
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
+
   const handleEdit = () => {
     setFormData({ ...profile });
     setMessage("");
     setIsEditing(true);
   };
-  const handleSave = (e) => {
+
+  const handleSave = async (e) => {
     e.preventDefault();
-    const updatedProfile = {
-      ...formData,
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      phone: formData.phone.trim()
-    };
-    setProfile(updatedProfile);
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(updatedProfile)
-    );
-    setIsEditing(false);
-    setMessage("Profile updated successfully!");
+    const token = localStorage.getItem("token");
+    try {
+      const res  = await fetch("http://localhost:5000/api/auth/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          name:       formData.name.trim(),
+          phone:      formData.phone.trim(),
+          department: formData.department
+        })
+      });
+      const json = await res.json();
+      const updated = {
+        ...formData,
+        name:       json.user.name,
+        phone:      json.user.phone      || "",
+        department: json.user.department || ""
+      };
+      setProfile(updated);
+      setIsEditing(false);
+      setMessage("Profile updated successfully!");
+    } catch (err) {
+      setMessage("Profile save nahi hua: " + err.message);
+    }
   };
+
   const handleCancel = () => {
     setFormData({ ...profile });
     setIsEditing(false);
     setMessage("");
   };
+
   const initials = profile.name
     .split(" ")
     .filter(Boolean)
-    .map((word) => word[0])
+    .map(word => word[0])
     .join("")
     .slice(0, 2)
     .toUpperCase() || "U";
+
   return (
     <div className="profile-page">
       <div className="profile-topbar">
         <div>
           <span className="profile-brand">MAIMT</span>
-          <span className="profile-brand-subtitle">
-            Timetable Management System
-          </span>
+          <span className="profile-brand-subtitle">Timetable Management System</span>
         </div>
         <div className="profile-top-right">
           <FaBell />
           <span className="profile-mini-avatar">{initials}</span>
         </div>
       </div>
+
       <Container fluid className="profile-content">
         <div className="profile-heading">
           <div>
@@ -86,16 +114,15 @@ export default function Profile() {
             <p>Manage your personal information</p>
           </div>
         </div>
+
         {message && (
-          <Alert
-            variant="success"
-            dismissible
-            onClose={() => setMessage("")}
-          >
+          <Alert variant="success" dismissible onClose={() => setMessage("")}>
             {message}
           </Alert>
         )}
+
         <Row className="g-4">
+          {/* ── Left Card ── */}
           <Col lg={4}>
             <Card className="profile-card profile-summary">
               <Card.Body>
@@ -120,23 +147,20 @@ export default function Profile() {
               </Card.Body>
             </Card>
           </Col>
+
+          {/* ── Right Card ── */}
           <Col lg={8}>
             <Card className="profile-card">
               <Card.Body>
                 <div className="profile-form-heading">
-                  <div>
-                    <h4>Personal Information</h4>
-                  </div>
+                  <div><h4>Personal Information</h4></div>
                   {!isEditing && (
-                    <Button
-                      className="profile-edit-btn"
-                      onClick={handleEdit}
-                    >
-                      <FaEdit className="me-2" />
-                      Edit Profile
+                    <Button className="profile-edit-btn" onClick={handleEdit}>
+                      <FaEdit className="me-2" />Edit Profile
                     </Button>
                   )}
                 </div>
+
                 <Form onSubmit={handleSave}>
                   <Row className="g-3">
                     <Col md={6}>
@@ -156,6 +180,7 @@ export default function Profile() {
                         </div>
                       </Form.Group>
                     </Col>
+
                     <Col md={6}>
                       <Form.Group>
                         <Form.Label>Email Address</Form.Label>
@@ -166,12 +191,13 @@ export default function Profile() {
                             type="email"
                             value={formData.email}
                             onChange={handleChange}
-                            disabled={!isEditing}
+                            disabled={true}
                             placeholder="Enter email"
                           />
                         </div>
                       </Form.Group>
                     </Col>
+
                     <Col md={6}>
                       <Form.Group>
                         <Form.Label>Phone Number</Form.Label>
@@ -191,6 +217,7 @@ export default function Profile() {
                         </div>
                       </Form.Group>
                     </Col>
+
                     <Col md={6}>
                       <Form.Group>
                         <Form.Label>Role</Form.Label>
@@ -198,12 +225,14 @@ export default function Profile() {
                           name="role"
                           value={formData.role}
                           onChange={handleChange}
-                          disabled={!isEditing}
+                          disabled={true}
                         >
-                          <option value="Developer">Developer</option>
+                          <option value="admin">Admin</option>
+                          <option value="teacher">Teacher</option>
                         </Form.Select>
                       </Form.Group>
                     </Col>
+
                     <Col md={6}>
                       <Form.Group>
                         <Form.Label>Department</Form.Label>
@@ -215,6 +244,7 @@ export default function Profile() {
                         />
                       </Form.Group>
                     </Col>
+
                     <Col md={6}>
                       <Form.Group>
                         <Form.Label>College</Form.Label>
@@ -222,28 +252,20 @@ export default function Profile() {
                           name="college"
                           value={formData.college}
                           onChange={handleChange}
-                          disabled={!isEditing}
+                          disabled={true}
                         />
                       </Form.Group>
                     </Col>
                   </Row>
+
                   {isEditing && (
                     <div className="profile-actions">
-                      {/* <Button
-                        variant="secondary"
-                        type="button"
-                        onClick={handleCancel}
-                      >
+                      <Button variant="secondary" type="button" onClick={handleCancel}>
                         Cancel
-                      </Button> */}
-
-                      {/* <Button
-                        type="submit"
-                        className="profile-save-btn"
-                      >
-                        <FaSave className="me-2" />
-                        Save Changes
-                      </Button> */}
+                      </Button>
+                      <Button type="submit" className="profile-save-btn">
+                        <FaSave className="me-2" />Save Changes
+                      </Button>
                     </div>
                   )}
                 </Form>

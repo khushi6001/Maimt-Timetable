@@ -1,6 +1,6 @@
 import {Container,Row,Col,Form,Button, FormLabel, FormControl, FormSelect, Table} from "react-bootstrap";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import * as yup from "yup";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
@@ -8,9 +8,22 @@ import "./Teacher.css";
 export function Teacher() {
   const [edit, setedit] = useState(null);
   console.log(edit);
-  const [formdata, setformdata] = useState(() => {
-    return JSON.parse(localStorage.getItem("teachers")) || [];
-  });
+  const [formdata, setformdata] = useState([]);
+const [loading, setLoading]   = useState(true);
+const [error, setError]       = useState("");
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/teachers", {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  })
+    .then(r => r.json())
+   .then(json => { 
+  const list = Array.isArray(json.data) ? json.data : [];
+  setformdata(list); 
+  setLoading(false); 
+})
+    .catch(() => { setError("Teachers load nahi hue"); setLoading(false); });
+}, []);
   console.log(formdata);
 
   const [show, setShow] = useState(false);
@@ -51,75 +64,46 @@ export function Teacher() {
         .matches(/^[0-9]{10}$/, "Contact must be exactly 10 digits")
         .required("Please enter your contact number")
     }),
-
-    onSubmit: (values) => {
-      let updatedData;
-
-      if (edit !== null) {
-        // Update existing teacher
-        updatedData = [...formdata];
-        updatedData[edit] = values;
-      } else {
-        // Add new teacher
-        updatedData = [...formdata, values];
-      }
-
-      setformdata(updatedData);
-
-      localStorage.setItem(
-        "teachers",
-        JSON.stringify(updatedData)
-      );
-
-      setShow(false);
-      setedit(null);
-      formik.resetForm();
+onSubmit: async (values) => {
+  const token = localStorage.getItem("token");
+  const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
+  try {
+    if (edit !== null) {
+      const res  = await fetch(`http://localhost:5000/api/teachers/${edit}`, {
+        method: "PUT", headers, body: JSON.stringify({ name: values.name, email: values.email, department: values.subject, phone: values.contact })
+      });
+      const json = await res.json();
+      setformdata(prev => prev.map(t => t._id === edit ? json.data : t));
+    } else {
+      const res  = await fetch("http://localhost:5000/api/teachers", {
+        method: "POST", headers, body: JSON.stringify({ teacherId: `TCH${Date.now()}`, name: values.name, email: values.email, department: values.subject, phone: values.contact })
+      });
+      const json = await res.json();
+      setformdata(prev => [...prev, json.data]);
     }
+    setShow(false); setedit(null); formik.resetForm();
+  } catch (err) {
+    setError("Save nahi hua: " + err.message);
+  }
+}
+  
   });
 
-  const handleDelete = (index) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this teacher?"
-    );
+  const handleDelete = async (teacher) => {
+  if (!window.confirm("Are you sure you want to delete this teacher?")) return;
+  await fetch(`http://localhost:5000/api/teachers/${teacher._id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  });
+  setformdata(prev => prev.filter(t => t._id !== teacher._id));
+};
 
-    if (confirmDelete) {
-      const updatedData = formdata.filter(
-        (_, i) => i !== index
-      );
-
-      setformdata(updatedData);
-
-      localStorage.setItem(
-        "teachers",
-        JSON.stringify(updatedData)
-      );
-
-      // If the edited teacher was deleted, close edit mode
-      if (edit === index) {
-        setShow(false);
-        setedit(null);
-        formik.resetForm();
-      } else if (edit !== null && edit > index) {
-        setedit(edit - 1);
-      }
-    }
-  };
-
-  const handleEdit = (index) => {
-    setedit(index);
-
-    // Fill form with selected teacher's data
-    formik.setValues({
-      name: formdata[index].name || "",
-      email: formdata[index].email || "",
-      subject: formdata[index].subject || "",
-      contact: String(formdata[index].contact || "")
-    });
-
-    formik.setTouched({});
-
-    setShow(true);
-  };
+   const handleEdit = (teacher) => {
+  setedit(teacher._id);
+  formik.setValues({ name: teacher.name || "", email: teacher.email || "", subject: teacher.department || "", contact: teacher.phone || "" });
+  formik.setTouched({});
+  setShow(true);
+};
 
   const handleAdd = () => {
     setedit(null);
@@ -179,6 +163,11 @@ export function Teacher() {
                   <option value="Data Science">Data Science</option>
                   <option value="DBMS">DBMS</option>
                   <option value="Web">Web</option>
+                   <option value="SE">SE</option>
+                  <option value="English">English</option>
+                  <option value="ITR">ITR</option>
+                  <option value="CPL">CPL</option>
+
                 </FormSelect>
                 <span style={{color:"red"}}>
                   {formik.touched.subject && formik.errors.subject}
@@ -226,35 +215,23 @@ export function Teacher() {
             </thead>
 
             <tbody>
-              {formdata.map((data, index) => (
-                <tr key={index}>
-                  <td>T00{index + 1}</td>
-                  <td>{data.name}</td>
-                  <td>{data.email}</td>
-                  <td>{data.subject}</td>
-                  <td>{data.contact}</td>
-
-                  <td>
-                    <Button
-                      type="button"
-                      className="edit-btn me-2"
-                      onClick={() => handleEdit(index)}
-                    >
-                      <FaEdit />
-                    </Button>
-
-                    <Button
-                      type="button"
-                      variant="danger"
-                      className="dust"
-                      onClick={() => handleDelete(index)}
-                    >
-                      <FaTrash />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-
+              {formdata.filter(Boolean).map((data, index) => (
+  <tr key={data?._id || index}>
+  <td>{`T${String(index + 1).padStart(2, "0")}`}</td>
+    <td>{data?.name}</td>
+    <td>{data?.email}</td>
+    <td>{data?.department}</td>
+    <td>{data?.phone}</td>
+    <td>
+      <Button type="button" className="edit-btn me-2" onClick={() => handleEdit(data)}>
+        <FaEdit />
+      </Button>
+      <Button type="button" variant="danger" className="dust" onClick={() => handleDelete(data)}>
+        <FaTrash />
+      </Button>
+    </td>
+  </tr>
+))}
               {formdata.length === 0 && (
                 <tr>
                   <td colSpan="6" className="text-center">

@@ -9,20 +9,7 @@ const emptyClass = {
   year: ""
 };
 export function Classes() {
-  const [classes, setClasses] = useState(() => {
-    try {
-      const savedData = JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "[]"
-      );
-      if (!Array.isArray(savedData)) return [];
-      return savedData.map((item) => ({
-        ...item,
-        id: item.id ?? crypto.randomUUID()
-      }));
-    } catch {
-      return [];
-    }
-  });
+  const [classes, setClasses] = useState([]);
   const [show, setShow] = useState(false);
   const [editId, setEditId] = useState(null);
   const [newClass, setNewClass] = useState(emptyClass);
@@ -30,11 +17,14 @@ export function Classes() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(classes)
-    );
-  }, [classes]);
+  setLoading(true);
+  fetch("http://localhost:5000/api/classes", {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  })
+    .then(r => r.json())
+    .then(json => { setClasses(json.data); setLoading(false); })
+    .catch(() => { setError("Classes load nahi hue"); setLoading(false); });
+}, []);
   const handleAddClick = () => {
     setEditId(null);
     setNewClass({ ...emptyClass });
@@ -42,84 +32,42 @@ export function Classes() {
     setShow(true);
   };
   const handleEdit = (item) => {
-    setEditId(item.id);
-    setNewClass({
-      className: item.className || "",
-      section: item.section || "",
-      year: String(item.year || "")
-    });
-    setError("");
-    setShow(true);
-  };
-  const handleSave = (e) => {
-    e.preventDefault();
-    setError("");
-    const classData = {
-      className: newClass.className.trim(),
-      section: newClass.section,
-      year: Number(newClass.year)
-    };
-    if (
-      !classData.className ||
-      !classData.section ||
-      !newClass.year
-    ) {
-      setError("Please fill in all fields.");
-      return;
+  setEditId(item._id);
+  setNewClass({ className: item.name || "", section: item.section || "", year: item.grade || "" });
+  setError(""); setShow(true);
+};
+ 
+   const handleSave = async (e) => {
+  e.preventDefault();
+  setError("");
+  const classData = { className: newClass.className.trim(), section: newClass.section, year: Number(newClass.year) };
+  if (!classData.className || !classData.section || !newClass.year) { setError("Please fill in all fields."); return; }
+  setSaving(true);
+  const token = localStorage.getItem("token");
+  const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
+  try {
+    if (editId !== null) {
+      const res  = await fetch(`http://localhost:5000/api/classes/${editId}`, { method: "PUT", headers, body: JSON.stringify({ name: classData.className, section: classData.section, grade: String(classData.year), academicYear: "2026-27" }) });
+      const json = await res.json();
+      setClasses(prev => prev.map(item => item._id === editId ? json.data : item));
+    } else {
+      const res  = await fetch("http://localhost:5000/api/classes", { method: "POST", headers, body: JSON.stringify({ name: classData.className, section: classData.section, grade: String(classData.year), academicYear: "2026-27" }) });
+      const json = await res.json();
+      setClasses(prev => [...prev, json.data]);
     }
-    setSaving(true);
-    try {
-      if (editId !== null) {
-        const updatedClasses = classes.map((item) =>
-          item.id === editId
-            ? { ...item, ...classData }
-            : item
-        );
-        setClasses(updatedClasses);
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(updatedClasses)
-        );
-      } else {
-        const newRecord = {
-          id: crypto.randomUUID(),
-          ...classData
-        };
-        const updatedClasses = [...classes, newRecord];
-        setClasses(updatedClasses);
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(updatedClasses)
-        );
-      }
-      setShow(false);
-      setEditId(null);
-      setNewClass({ ...emptyClass });
-    } catch (err) {
-      setError("Unable to save class.");
-    } finally {
-      setSaving(false);
-    }
-  };
-  const handleDelete = (id) => {
-    if (!window.confirm("Are you sure you want to delete this class?")) {
-      return;
-    }
-    const updatedClasses = classes.filter(
-      (item) => item.id !== id
-    );
-    setClasses(updatedClasses);
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(updatedClasses)
-    );
-    if (editId === id) {
-      setShow(false);
-      setEditId(null);
-      setNewClass({ ...emptyClass });
-    }
-    setError("");
-  };
+    setShow(false); setEditId(null); setNewClass({ ...emptyClass });
+  } catch (err) { setError("Save nahi hua: " + err.message); }
+  finally { setSaving(false); }
+};
+const handleDelete = async (id) => {
+  if (!window.confirm("Are you sure you want to delete this class?")) return;
+  await fetch(`http://localhost:5000/api/classes/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+  });
+  setClasses(prev => prev.filter(item => item._id !== id));
+  if (editId === id) { setShow(false); setEditId(null); setNewClass({ ...emptyClass }); }
+}; 
   const handleClose = () => {
     if (saving) return;
     setShow(false);
@@ -173,14 +121,14 @@ export function Classes() {
                   classes.map((item, index) => (
                     <tr key={item.id}>
                       <td>{index + 1}</td>
-                      <td>{item.className}</td>
+                      <td>{item.name}</td>
                       <td>{item.section}</td>
-                      <td>{item.year}</td>
+                      <td>{item.grade}</td>
                       <td>
                         <button type="button" className="action-btn edit-btn" title="Edit class" onClick={() => handleEdit(item)}>
                           <FaEdit />
                         </button>
-                        <button  type="button" className="action-btn delete-btn" title="Delete class" onClick={() => handleDelete(item.id)}>   <FaTrash />  </button>
+                        <button  type="button" className="action-btn delete-btn" title="Delete class" onClick={() => handleDelete(item._id)}>   <FaTrash />  </button>
                       </td>
                     </tr>
                   ))

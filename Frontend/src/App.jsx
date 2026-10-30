@@ -10,12 +10,22 @@ import { First } from "./Components/Firstpage/Firstpage";
 import { Classes } from "./Components/Classes";
 import { Dashboardhome } from "./Components/DashboadHome";
 import { Workload } from "./Components/Workload";
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  if (!token) return <Navigate to="/" replace />;
+  return children;
+};
+
 function App() {
   return (
     <>
        <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/Dashboard" element={<Dashboard />}>
+         <Route path="/Dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }>
         <Route index element={<Dashboardhome/>}/>
         <Route path="classes" element={<Classes/>} />
         {/* <Route path="Freeslot" element={<Freeslot />} /> */}

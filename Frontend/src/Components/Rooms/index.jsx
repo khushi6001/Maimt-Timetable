@@ -1,42 +1,53 @@
-import React, { useState } from "react";
-import { Button,Modal,Form,Row,Col,} from "react-bootstrap";
-import {FaPlus,FaDoorOpen,FaEdit,FaTrash,} from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Form, Row, Col, } from "react-bootstrap";
+import { FaPlus, FaDoorOpen, FaEdit, FaTrash, } from "react-icons/fa";
 import "./Rooms.css";
 export function Rooms() {
   const [show, setShow] = useState(false);
-  const [rooms, setRooms] = useState([
-    { id: "R001", name: "Room 21", capacity: 60 },
-    { id: "R002", name: "Room 22", capacity: 60 },
-    { id: "R003", name: "Room 23", capacity: 60 },
-    { id: "R004", name: "Room 24", capacity: 60 },
-    { id: "R005", name: "Room 25", capacity: 60 },
-    { id: "R006", name: "Room 26", capacity: 60 },
-    { id: "R007", name: "Room 27", capacity: 60 },
-    { id: "R008", name: "Room 28", capacity: 60 },
-  ]);
+  const [rooms, setRooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/rooms", {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    })
+      .then(r => r.json())
+      .then(json => { setRooms(json.data); setLoading(false); })
+      .catch(() => { setError("Rooms load nahi hue"); setLoading(false); });
+  }, []);
   const [roomData, setRoomData] = useState({
     name: "",
     capacity: "",
   });
-  const handleAddRoom = (e) => {
+
+  const handleAddRoom = async (e) => {
     e.preventDefault();
-    const newRoom = {
-      id: `R00${rooms.length + 1}`,
-      name: roomData.name,
-      capacity: roomData.capacity,
-    };
-    setRooms([...rooms, newRoom]);
-    setRoomData({
-      name: "",
-      capacity: "",
+    try {
+      const res = await fetch("http://localhost:5000/api/rooms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` },
+        body: JSON.stringify({ roomNumber: `R${Date.now()}`, name: roomData.name, capacity: Number(roomData.capacity), type: "classroom" })
+      });
+      const json = await res.json();
+      setRooms(prev => [...prev, json.data]);
+      setRoomData({ name: "", capacity: "" });
+      setShow(false);
+    } catch (err) {
+      setError("Room save nahi hua");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this room?")) return;
+    await fetch(`http://localhost:5000/api/rooms/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
     });
-    setShow(false);
+    setRooms(prev => prev.filter(room => room._id !== id));
   };
-  const handleDelete = (id) => {
-    setRooms(
-      rooms.filter((room) => room.id !== id)
-    );
-  };
+
+
   return (
     <div className="rooms-page">
       <div className="rooms-header">
@@ -69,98 +80,95 @@ export function Rooms() {
           </Button>
         </div>
         <div className="room-grid">
-          {rooms.map((room) => (
-            <div
-              className="room-box"
-              key={room.id}
-            >
-              <FaDoorOpen className="room-icon" />
-              <h4>
-                {room.name}
-              </h4>
-              <p>
-                Capacity: {room.capacity}
-              </p>
-              <div className="room-actions">
-                <button className="edit-room">
-                  <FaEdit />
-                </button>
-                <button
-                  className="delete-room"
-                  onClick={() =>
-                    handleDelete(room.id)
-                  }
-                >
-                  <FaTrash />
-                </button>
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p style={{ color: "red" }}>{error}</p>
+          ) : (
+            rooms.map((room) => (
+              <div className="room-box" key={room._id}>
+                <FaDoorOpen className="room-icon" />
+                <h4>{room.name || room.roomNumber}</h4>
+                <p>Capacity: {room.capacity}</p>
+                <div className="room-actions">
+                  <button className="edit-room">
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="delete-room"
+                    onClick={() => handleDelete(room._id)}
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
-      </div>
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Add Room
-          </Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={handleAddRoom}>
-          <Modal.Body>
-            <Form.Group className="mb-3">
-              <Form.Label>
-                Room Name
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter room name"
-                value={roomData.name}
-                onChange={(e) =>
-                  setRoomData({
-                    ...roomData,
-                    name: e.target.value,
-                  })
-                }
-                required
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>
-                Capacity
-              </Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter capacity"
-                value={roomData.capacity}
-                onChange={(e) =>
-                  setRoomData({
-                    ...roomData,
-                    capacity: e.target.value,
-                  })
-                }
-                required
-              />
-            </Form.Group>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => setShow(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              className="save-room"
-            >
+        <Modal
+          show={show}
+          onHide={() => setShow(false)}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>
               Add Room
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
-    </div>
-  );
+            </Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleAddRoom}>
+            <Modal.Body>
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  Room Name
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter room name"
+                  value={roomData.name}
+                  onChange={(e) =>
+                    setRoomData({
+                      ...roomData,
+                      name: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>
+                  Capacity
+                </Form.Label>
+                <Form.Control
+                  type="number"
+                  placeholder="Enter capacity"
+                  value={roomData.capacity}
+                  onChange={(e) =>
+                    setRoomData({
+                      ...roomData,
+                      capacity: e.target.value,
+                    })
+                  }
+                  required
+                />
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={() => setShow(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="save-room"
+              >
+                Add Room
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
+      </div>
+       </div>
+      )
 }
